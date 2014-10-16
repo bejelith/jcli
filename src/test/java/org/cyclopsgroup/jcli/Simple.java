@@ -58,6 +58,8 @@ public class Simple
     }
 
     private boolean booleanField;
+    
+    private boolean bbooleanField;
 
     private int intField;
 
@@ -114,6 +116,15 @@ public class Simple
     public final void setBooleanField( boolean booleanField )
     {
         this.booleanField = booleanField;
+    }
+    
+    /**
+     * @param booleanField A flag option
+     */
+    @Option( name = "bb", longName = "bboolean", description = "Test boolean field" )
+    public final void setBBooleanField( boolean booleanField )
+    {
+        this.bbooleanField = booleanField;
     }
 
     /**

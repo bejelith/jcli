@@ -49,9 +49,10 @@ public abstract class ArgumentProcessor<T>
     /**
      * @param out Output to print help message to
      * @throws IOException Allows IO errors
+     * @throws Exception 
      */
     public abstract void printHelp( PrintWriter out )
-        throws IOException;
+        throws Exception;
 
     /**
      * Process argument list and pass values to given bean

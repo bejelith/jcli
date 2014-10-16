@@ -28,9 +28,13 @@ public class DefaultArgumentProcessorTest
     @Test
     public void testAvailability()
     {
-        ArgumentProcessor<Simple> p = ArgumentProcessor.newInstance( Simple.class, null );
-        assertNotNull( p );
-        assertTrue( p.getClass() == DefaultArgumentProcessor.class );
+    	try {
+	        ArgumentProcessor<Simple> p = ArgumentProcessor.newInstance( Simple.class, null );
+	        assertNotNull( p );
+	        assertTrue( p.getClass() == DefaultArgumentProcessor.class );
+    	}catch(Exception e){
+    		assertTrue(false);
+    	}
     }
 
     /**
@@ -39,17 +43,21 @@ public class DefaultArgumentProcessorTest
     @Test
     public void testParsingContextWithNormalBean()
     {
-        DefaultArgumentProcessor<Simple> p =
+        try{
+        	DefaultArgumentProcessor<Simple> p =
             new DefaultArgumentProcessor<Simple>( Simple.class, null );
-        Option a = p.getContext().optionWithShortName( "i" );
-        assertEquals( "i", a.getName() );
-        assertEquals( "tint", a.getLongName() );
-        assertFalse( a.isFlag() );
-
-        Option b = p.getContext().optionWithLongName( "field1" );
-        assertEquals( "f", b.getName() );
-        assertEquals( "field1", b.getLongName() );
-        assertEquals( "field1", b.getLongName() );
+	        Option a = p.getContext().optionWithShortName( "i" );
+	        assertEquals( "i", a.getName() );
+	        assertEquals( "tint", a.getLongName() );
+	        assertFalse( a.isFlag() );
+	
+	        Option b = p.getContext().optionWithLongName( "field1" );
+	        assertEquals( "f", b.getName() );
+	        assertEquals( "field1", b.getLongName() );
+	        assertEquals( "field1", b.getLongName() );
+    	}catch(Exception e){
+    		assertTrue(false);
+		}
     }
 
     /**
@@ -59,7 +67,11 @@ public class DefaultArgumentProcessorTest
     public void testPrintHelp()
         throws IOException
     {
-        ArgumentProcessor<Simple> p = ArgumentProcessor.newInstance( Simple.class, null );
-        p.printHelp( new PrintWriter( new OutputStreamWriter( System.out ), true ) );
+    	try {
+    		ArgumentProcessor<Simple> p = ArgumentProcessor.newInstance( Simple.class, null );
+    		p.printHelp( new PrintWriter( new OutputStreamWriter( System.out ), true ) );
+    	}catch(Exception e){
+    		assertTrue(false);
+    	}
     }
 }

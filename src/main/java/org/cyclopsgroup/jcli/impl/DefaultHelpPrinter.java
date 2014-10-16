@@ -2,6 +2,8 @@ package org.cyclopsgroup.jcli.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.lang.StringUtils;
 import org.cyclopsgroup.caff.format.Format;
@@ -10,8 +12,14 @@ import org.cyclopsgroup.jcli.spi.Option;
 
 class DefaultHelpPrinter
 {
-    static <T> void printHelp( AnnotationParsingContext<T> context, PrintWriter out )
-        throws IOException
+	static <T> void printHelp( AnnotationParsingContext<T> context, PrintWriter out )
+	        throws Exception
+	{
+		DefaultHelpPrinter.printHelp(context, out, OptionHelp.class);
+	}
+	
+    static <T, Z> void printHelp( AnnotationParsingContext<T> context, PrintWriter out, Class<Z> beanType )
+        throws Exception
     {
         out.println( "[USAGE]" );
         out.println( "  " + context.cli().getName() + ( context.options().isEmpty() ? "" : " <OPTIONS>" )
@@ -24,11 +32,14 @@ class DefaultHelpPrinter
         if ( !context.options().isEmpty() )
         {
             out.println( "[OPTIONS]" );
-            Format<OptionHelp> helpFormat = Formats.newFixLengthFormat( OptionHelp.class );
+            @SuppressWarnings("unchecked")
+			Format<T> helpFormat = (Format<T>) Formats.newFixLengthFormat( beanType );
             for ( Option option : context.options() )
             {
-                String line = helpFormat.formatToString( new OptionHelp( option ) ).trim();
-                out.println( "  " + line );
+            	Constructor<Z> c = beanType.getConstructor( Option.class );
+				@SuppressWarnings("unchecked")
+				String line = helpFormat.formatToString( (T) c.newInstance( option ) ).trim();
+				out.println( "  " + line );
             }
         }
         if ( context.argument() != null )

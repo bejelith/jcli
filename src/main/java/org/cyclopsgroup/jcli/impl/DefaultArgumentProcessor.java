@@ -43,9 +43,9 @@ class DefaultArgumentProcessor<T>
      */
     @Override
     public void printHelp( PrintWriter out )
-        throws IOException
+        throws Exception
     {
-        DefaultHelpPrinter.printHelp( context, out );
+        DefaultHelpPrinter.printHelp( context, out, OptionHelp.class );
     }
 
     /**
